@@ -1,19 +1,43 @@
 plugins {
     id("java")
+    id("java-library")
+    id("io.papermc.paperweight.userdev") version "1.3.8"
+    id("xyz.jpenilla.run-paper") version "1.0.6" // mojang mappings
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
 group = "net.nonswag.tnl.enderchest"
-version = "1.0-SNAPSHOT"
+version = "2.0.0"
 
 repositories {
     mavenCentral()
+    maven("https://repo.thenextlvl.net/repository/maven-public/")
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    implementation("org.projectlombok:lombok:1.18.24")
+    implementation("net.nonswag.tnl:listener:6.2.2")
+    paperDevBundle("1.19.3-R0.1-SNAPSHOT")
+    annotationProcessor("org.projectlombok:lombok:1.18.24")
 }
 
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
+
+tasks {
+    assemble {
+        dependsOn(reobfJar)
+    }
+
+    compileJava {
+        options.encoding = Charsets.UTF_8.name()
+        options.release.set(17)
+    }
+    javadoc {
+        options.encoding = Charsets.UTF_8.name()
+    }
+    processResources {
+        filteringCharset = Charsets.UTF_8.name()
+    }
 }
