@@ -1,0 +1,7 @@
+name: "BetterEnderChest"
+main: "net.nonswag.tnl.enderchest.BetterEnderChest"
+version: "2.0"
+api-version: "1.19"
+author: "NonSwag"
+website: "https://www.thenextlvl.net"
+depend: ["TNLListener"]
