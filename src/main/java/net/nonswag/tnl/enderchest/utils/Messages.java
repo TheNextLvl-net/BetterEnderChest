@@ -13,5 +13,6 @@ public final class Messages {
 
     public static void init() {
         Message.ROOT.setDefault(ENDER_CHEST_TITLE, "Ender Chest (%rows%)");
+        Message.ROOT.save();
     }
 }
