@@ -7,7 +7,6 @@ import net.nonswag.tnl.enderchest.api.EnderChest;
 import org.bukkit.craftbukkit.v1_19_R2.entity.CraftHumanEntity;
 import org.bukkit.craftbukkit.v1_19_R2.inventory.CraftInventory;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
@@ -32,8 +31,7 @@ public class EnderChestListener implements Listener {
             owner = enderchest.getBukkitOwner() instanceof HumanEntity human ? human : event.getPlayer();
         } else owner = event.getPlayer();
         event.setCancelled(true);
-        if (!(owner instanceof Player player)) return;
-        InventoryView view = event.getPlayer().openInventory(EnderChest.get(player));
+        InventoryView view = event.getPlayer().openInventory(EnderChest.get(owner));
         Reflection.Field.setByType(event, InventoryEvent.class, InventoryView.class, view);
         CHESTS.add(event.getPlayer().getUniqueId());
     }
@@ -51,6 +49,6 @@ public class EnderChestListener implements Listener {
         if (EnderChest.canModify(event.getPlayer())) EnderChest.save(owner, event.getInventory());
         var human = ((CraftHumanEntity) event.getPlayer()).getHandle();
         CHESTS.remove(event.getPlayer().getUniqueId());
-        human.inventoryMenu.removed(human);
+        human.getEnderChestInventory().stopOpen(human);
     }
 }
