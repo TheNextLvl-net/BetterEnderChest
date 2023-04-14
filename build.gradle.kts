@@ -1,26 +1,27 @@
 plugins {
     id("java")
-    id("java-library")
-    id("io.papermc.paperweight.userdev") version "1.3.8"
-    id("xyz.jpenilla.run-paper") version "1.0.6" // mojang mappings
-}
-
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    id("io.papermc.paperweight.userdev") version "1.5.3"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("net.minecrell.plugin-yml.bukkit") version "0.5.1"
 }
 
 group = "net.nonswag.tnl.enderchest"
-version = "2.0.0"
+version = "3.0.0"
 
 repositories {
     mavenCentral()
-    maven("https://repo.thenextlvl.net/repository/maven-public/")
+    maven("https://repo.thenextlvl.net/releases")
+    maven("https://repo.papermc.io/repository/maven-public/")
 }
 
 dependencies {
-    implementation("org.projectlombok:lombok:1.18.24")
-    implementation("net.nonswag.tnl:listener:6.2.2")
-    paperDevBundle("1.19.3-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
+
+    compileOnly("org.projectlombok:lombok:1.18.24")
+    compileOnly("net.thenextlvl.core:annotations:1.0.0")
+
+    implementation("net.thenextlvl.core:api:3.1.10")
+
     annotationProcessor("org.projectlombok:lombok:1.18.24")
 }
 
@@ -28,6 +29,9 @@ dependencies {
 tasks {
     assemble {
         dependsOn(reobfJar)
+    }
+    shadowJar {
+        minimize()
     }
 
     compileJava {
@@ -40,4 +44,12 @@ tasks {
     processResources {
         filteringCharset = Charsets.UTF_8.name()
     }
+}
+
+bukkit {
+    name = "BetterEnderChest"
+    main = "net.thenextlvl.enderchest.BetterEnderChest"
+    apiVersion = "1.19"
+    website = "https://thenextlvl.net"
+    authors = listOf("NonSwag")
 }

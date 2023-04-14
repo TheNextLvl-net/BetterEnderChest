@@ -1,13 +1,11 @@
-package net.nonswag.tnl.enderchest.api;
+package net.thenextlvl.enderchest.api;
 
-import net.nonswag.core.api.annotation.MethodsReturnNullableByDefault;
-import net.nonswag.core.api.file.helper.FileHelper;
-import net.nonswag.core.api.logger.Logger;
+import core.annotation.MethodsReturnNullableByDefault;
+import core.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -20,12 +18,12 @@ public class ItemHelper {
     public static void setContents(HumanEntity player, ItemStack[] contents) {
         try {
             File file = new File("plugins/EnderChest", player.getUniqueId() + ".yml");
-            FileHelper.create(file);
+            createFile(file);
             YamlConfiguration inventory = YamlConfiguration.loadConfiguration(file);
             inventory.set("items", Arrays.asList(contents));
             inventory.save(file);
         } catch (IOException e) {
-            Logger.error.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -33,7 +31,7 @@ public class ItemHelper {
         try {
             ItemStack[] items = new ItemStack[]{};
             File file = new File("plugins/EnderChest", player.getUniqueId() + ".yml");
-            FileHelper.create(file);
+            createFile(file);
             YamlConfiguration inventory = YamlConfiguration.loadConfiguration(file);
             if (!inventory.isSet("items")) return null;
             List<?> contents = inventory.getList("items");
@@ -42,8 +40,15 @@ public class ItemHelper {
             for (int i = 0; i < contents.size(); i++) items[i] = (ItemStack) contents.get(i);
             return items;
         } catch (Exception e) {
-            Logger.error.println(e);
+            e.printStackTrace();
             return null;
         }
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private static void createFile(File file) throws IOException {
+        File absoluteFile = file.getAbsoluteFile();
+        absoluteFile.getParentFile().mkdirs();
+        absoluteFile.createNewFile();
     }
 }
