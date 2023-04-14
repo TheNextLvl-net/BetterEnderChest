@@ -1,7 +1,7 @@
 package net.thenextlvl.enderchest.listener;
 
+import core.annotation.FieldsAreNonnullByDefault;
 import core.annotation.ParametersAreNonnullByDefault;
-import net.minecraft.FieldsAreNonnullByDefault;
 import net.minecraft.world.inventory.PlayerEnderChestContainer;
 import net.thenextlvl.enderchest.api.EnderChest;
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftHumanEntity;
