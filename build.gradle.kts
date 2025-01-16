@@ -2,7 +2,7 @@ plugins {
     id("java")
     id("io.papermc.paperweight.userdev") version "1.5.3"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("net.minecrell.plugin-yml.bukkit") version "0.5.1"
+    id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
 }
 
 group = "net.nonswag.tnl.enderchest"
